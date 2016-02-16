@@ -11,12 +11,12 @@
 	<h2>Прайс-лист</h2>	
 	<form action="pricelist" method="post">
 		<table>
-			<tr>
-				<td>Категория:</td>
-				<td>Наименование:</td>
-				<td>Цена от:</td>
-				<td>Цена до:</td>
-				<td></td>
+			<tr align="left">
+				<th>Категория:</th>
+				<th>Наименование:</th>
+				<th>Цена от:</th>
+				<th>Цена до:</th>
+				<th></th>
 			</tr>
 			<tr>
 				<td><input type="text" name="cathegory"></input></td>
@@ -28,11 +28,11 @@
 		</table>
 	</form>
 	<br>
-	<table>
+	<table width="750" border="1">
 		<tr>
-			<td>Категория</td>
-			<td>Наименование</td>
-			<td>Цена</td>
+			<th>Категория</th>
+			<th>Наименование</th>
+			<th>Цена</th>
 		</tr>
 		<c:forEach var="product" items="${products}">
 			<tr>

@@ -36,7 +36,9 @@ public class MainController extends HttpServlet {
 	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		Query query = entitymanager.createQuery("SELECT p FROM Product p");
+		String sql = "SELECT p FROM Product p";
+		
+		Query query = entitymanager.createQuery(sql);
 		
 		List<Product> products = (List<Product>) query.getResultList();
 		
@@ -49,21 +51,65 @@ public class MainController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String priductIdString = request.getParameter("cathegory");
-		String priductNameString = request.getParameter("name");
+		String priductNameString1 = request.getParameter("name");
+		String priductNameString = new String(priductNameString1.getBytes("ISO-8859-1"), "windows-1251");
+		System.out.println(priductNameString1);
+		System.out.println(priductNameString);
 		String priductPriceMinString = request.getParameter("priceMin");
 		String priductPriceMaxString = request.getParameter("priceMax");
+		
+		StringBuilder sql = new StringBuilder("SELECT p FROM Product p");
+		
 		if (priductIdString.equals("") && priductNameString.equals("") && 
 				priductPriceMinString.equals("") && priductPriceMaxString.equals("")) {
 			doGet(request, response);
 			return;
 		}
 		
-		int priductId = Integer.parseInt(priductIdString);
+		sql.append(" WHERE ");
 		
-		Product product = entitymanager.find(Product.class, priductId);
+//		int priductId = Integer.parseInt(priductIdString);
 		
-		List<Product> products = new ArrayList<>();
-		products.add(product);
+		if (!priductNameString.equals("")) {
+			sql.append("p.name LIKE '"+priductNameString+"%'");
+			if (!priductPriceMinString.equals("")) {
+				int priductPriceMin = Integer.parseInt(priductPriceMinString);
+				sql.append(" AND ");
+				sql.append("p.price >= '"+priductPriceMin+"'");
+				
+				if (!priductPriceMaxString.equals("")) {
+					int priductPriceMax = Integer.parseInt(priductPriceMaxString);
+					sql.append(" AND ");
+					sql.append("p.price <= '"+priductPriceMax+"'");
+				}
+			}
+			else if (!priductPriceMaxString.equals("")) {
+				int priductPriceMax = Integer.parseInt(priductPriceMaxString);
+				sql.append(" AND ");
+				sql.append("p.price <= '"+priductPriceMax+"'");
+			}
+		}
+		else {
+			if (!priductPriceMinString.equals("")) {
+				int priductPriceMin = Integer.parseInt(priductPriceMinString);
+				sql.append("p.price >= '"+priductPriceMin+"'");
+				
+				if (!priductPriceMaxString.equals("")) {
+					int priductPriceMax = Integer.parseInt(priductPriceMaxString);
+					sql.append(" AND ");
+					sql.append("p.price <= '"+priductPriceMax+"'");
+				}
+			}
+			else if (!priductPriceMaxString.equals("")) {
+				int priductPriceMax = Integer.parseInt(priductPriceMaxString);
+				sql.append("p.price <= '"+priductPriceMax+"'");
+			}
+		}
+		
+		
+		Query query = entitymanager.createQuery(sql.toString());
+		
+		List<Product> products = (List<Product>) query.getResultList();
 		
 		request.setAttribute("products", products);
 		
