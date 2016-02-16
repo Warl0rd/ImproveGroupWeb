@@ -1,0 +1,4 @@
+ru\sokolov\pricelist\controllers\MainController.class
+ru\sokolov\pricelist\models\Cathegory.class
+ru\sokolov\pricelist\controllers\ListController.class
+ru\sokolov\pricelist\models\Product.class
