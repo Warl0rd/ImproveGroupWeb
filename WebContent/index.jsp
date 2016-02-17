@@ -19,10 +19,10 @@
 				<th></th>
 			</tr>
 			<tr>
-				<td><input type="text" name="cathegory"></input></td>
-				<td><input type="text" name="name"></input></td>
-				<td><input type="text" name="priceMin"></input></td>
-				<td><input type="text" name="priceMax"></input></td>
+				<td><input type="text" name="cathegory" value="${cathegory}"></input></td>
+				<td><input type="text" name="name" value="${name}"></input></td>
+				<td><input type="text" name="priceMin" value="${priceMin}"></input></td>
+				<td><input type="text" name="priceMax" value="${priceMax}"></input></td>
 				<td><input type="submit" value="Найти"></td>
 			</tr>
 		</table>

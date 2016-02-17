@@ -1,8 +1,9 @@
 package ru.sokolov.pricelist.controllers;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -48,15 +49,22 @@ public class MainController extends HttpServlet {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String priductIdString = request.getParameter("cathegory");
-		String priductNameString1 = request.getParameter("name");
-		String priductNameString = new String(priductNameString1.getBytes("ISO-8859-1"), "windows-1251");
-		System.out.println(priductNameString1);
-		System.out.println(priductNameString);
-		String priductPriceMinString = request.getParameter("priceMin");
-		String priductPriceMaxString = request.getParameter("priceMax");
+		request.setCharacterEncoding("UTF-8");
+		
+		Map<String, String[]> parameters = request.getParameterMap();
+		
+		String priductIdString = parameters.get("cathegory")[0];
+		String priductNameString = parameters.get("name")[0];
+		String priductPriceMinString = parameters.get("priceMin")[0];
+		String priductPriceMaxString = parameters.get("priceMax")[0];
+		
+		request.setAttribute("cathegory", priductIdString);
+		request.setAttribute("name", priductNameString);
+		request.setAttribute("priceMin", priductPriceMinString);
+		request.setAttribute("priceMax", priductPriceMaxString);
 		
 		StringBuilder sql = new StringBuilder("SELECT p FROM Product p");
 		
