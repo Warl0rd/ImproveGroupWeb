@@ -2,25 +2,26 @@ package ru.sokolov.pricelist.models;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="PROD")
 public class Product implements Serializable {
 	
-	private static final long serialVersionUID = 7799949899645909746L;
+	private static final long serialVersionUID = 4453443914139540116L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
-	@Column(name="CAT_ID")
-	private int catId;
+	@ManyToOne(cascade=CascadeType.ALL)
+	private Cathegory cat;
 	
 	private String name;
 	
@@ -36,12 +37,12 @@ public class Product implements Serializable {
 		this.id = id;
 	}
 
-	public int getCatId() {
-		return catId;
+	public Cathegory getCat() {
+		return cat;
 	}
 
-	public void setCatId(int catId) {
-		this.catId = catId;
+	public void setCat(Cathegory cat) {
+		this.cat = cat;
 	}
 
 	public String getName() {
@@ -62,7 +63,7 @@ public class Product implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", catId=" + catId + ", name=" + name + ", price=" + price + "]";
+		return "Product [cathegory=" + cat + ", name=" + name + ", price=" + price + "]";
 	}
 
 }

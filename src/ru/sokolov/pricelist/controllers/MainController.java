@@ -1,7 +1,6 @@
 package ru.sokolov.pricelist.controllers;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,11 +26,10 @@ public class MainController extends HttpServlet {
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-		
-		emfactory = Persistence.createEntityManagerFactory("ImproveGroupName");
-		entitymanager = emfactory.createEntityManager();
-		
 		super.init(config);
+		
+		emfactory = Persistence.createEntityManagerFactory("ImproveGroup");
+		entitymanager = emfactory.createEntityManager();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -42,7 +40,7 @@ public class MainController extends HttpServlet {
 		Query query = entitymanager.createQuery(sql);
 		
 		List<Product> products = (List<Product>) query.getResultList();
-		
+
 		request.setAttribute("products", products);
 		
 		request.getRequestDispatcher("index.jsp").forward(request, response);
@@ -56,19 +54,19 @@ public class MainController extends HttpServlet {
 		
 		Map<String, String[]> parameters = request.getParameterMap();
 		
-		String priductIdString = parameters.get("cathegory")[0];
+		String priductCatString = parameters.get("cathegory")[0];
 		String priductNameString = parameters.get("name")[0];
 		String priductPriceMinString = parameters.get("priceMin")[0];
 		String priductPriceMaxString = parameters.get("priceMax")[0];
 		
-		request.setAttribute("cathegory", priductIdString);
+		request.setAttribute("cathegory", priductCatString);
 		request.setAttribute("name", priductNameString);
 		request.setAttribute("priceMin", priductPriceMinString);
 		request.setAttribute("priceMax", priductPriceMaxString);
 		
 		StringBuilder sql = new StringBuilder("SELECT p FROM Product p");
 		
-		if (priductIdString.equals("") && priductNameString.equals("") && 
+		if (priductCatString.equals("") && priductNameString.equals("") && 
 				priductPriceMinString.equals("") && priductPriceMaxString.equals("")) {
 			doGet(request, response);
 			return;
@@ -76,44 +74,84 @@ public class MainController extends HttpServlet {
 		
 		sql.append(" WHERE ");
 		
-//		int priductId = Integer.parseInt(priductIdString);
-		
-		if (!priductNameString.equals("")) {
-			sql.append("p.name LIKE '"+priductNameString+"%'");
-			if (!priductPriceMinString.equals("")) {
-				int priductPriceMin = Integer.parseInt(priductPriceMinString);
+		if (!priductCatString.equals("")) {
+			sql.append("p.cat.name LIKE '"+priductCatString+"%'");
+			if (!priductNameString.equals("")) {
 				sql.append(" AND ");
-				sql.append("p.price >= '"+priductPriceMin+"'");
-				
-				if (!priductPriceMaxString.equals("")) {
+				sql.append("p.name LIKE '"+priductNameString+"%'");
+				if (!priductPriceMinString.equals("")) {
+					int priductPriceMin = Integer.parseInt(priductPriceMinString);
+					sql.append(" AND ");
+					sql.append("p.price >= '"+priductPriceMin+"'");
+					
+					if (!priductPriceMaxString.equals("")) {
+						int priductPriceMax = Integer.parseInt(priductPriceMaxString);
+						sql.append(" AND ");
+						sql.append("p.price <= '"+priductPriceMax+"'");
+					}
+				}
+				else if (!priductPriceMaxString.equals("")) {
 					int priductPriceMax = Integer.parseInt(priductPriceMaxString);
 					sql.append(" AND ");
 					sql.append("p.price <= '"+priductPriceMax+"'");
 				}
 			}
-			else if (!priductPriceMaxString.equals("")) {
-				int priductPriceMax = Integer.parseInt(priductPriceMaxString);
-				sql.append(" AND ");
-				sql.append("p.price <= '"+priductPriceMax+"'");
+			else {
+				if (!priductPriceMinString.equals("")) {
+					int priductPriceMin = Integer.parseInt(priductPriceMinString);
+					sql.append(" AND ");
+					sql.append("p.price >= '"+priductPriceMin+"'");
+					
+					if (!priductPriceMaxString.equals("")) {
+						int priductPriceMax = Integer.parseInt(priductPriceMaxString);
+						sql.append(" AND ");
+						sql.append("p.price <= '"+priductPriceMax+"'");
+					}
+				}
+				else if (!priductPriceMaxString.equals("")) {
+					int priductPriceMax = Integer.parseInt(priductPriceMaxString);
+					sql.append(" AND ");
+					sql.append("p.price <= '"+priductPriceMax+"'");
+				}
 			}
 		}
 		else {
-			if (!priductPriceMinString.equals("")) {
-				int priductPriceMin = Integer.parseInt(priductPriceMinString);
-				sql.append("p.price >= '"+priductPriceMin+"'");
-				
-				if (!priductPriceMaxString.equals("")) {
+			if (!priductNameString.equals("")) {
+				sql.append("p.name LIKE '"+priductNameString+"%'");
+				if (!priductPriceMinString.equals("")) {
+					int priductPriceMin = Integer.parseInt(priductPriceMinString);
+					sql.append(" AND ");
+					sql.append("p.price >= '"+priductPriceMin+"'");
+					
+					if (!priductPriceMaxString.equals("")) {
+						int priductPriceMax = Integer.parseInt(priductPriceMaxString);
+						sql.append(" AND ");
+						sql.append("p.price <= '"+priductPriceMax+"'");
+					}
+				}
+				else if (!priductPriceMaxString.equals("")) {
 					int priductPriceMax = Integer.parseInt(priductPriceMaxString);
 					sql.append(" AND ");
 					sql.append("p.price <= '"+priductPriceMax+"'");
 				}
 			}
-			else if (!priductPriceMaxString.equals("")) {
-				int priductPriceMax = Integer.parseInt(priductPriceMaxString);
-				sql.append("p.price <= '"+priductPriceMax+"'");
+			else {
+				if (!priductPriceMinString.equals("")) {
+					int priductPriceMin = Integer.parseInt(priductPriceMinString);
+					sql.append("p.price >= '"+priductPriceMin+"'");
+					
+					if (!priductPriceMaxString.equals("")) {
+						int priductPriceMax = Integer.parseInt(priductPriceMaxString);
+						sql.append(" AND ");
+						sql.append("p.price <= '"+priductPriceMax+"'");
+					}
+				}
+				else if (!priductPriceMaxString.equals("")) {
+					int priductPriceMax = Integer.parseInt(priductPriceMaxString);
+					sql.append("p.price <= '"+priductPriceMax+"'");
+				}
 			}
 		}
-		
 		
 		Query query = entitymanager.createQuery(sql.toString());
 		

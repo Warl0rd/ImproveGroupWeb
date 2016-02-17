@@ -19,10 +19,10 @@
 				<th></th>
 			</tr>
 			<tr>
-				<td><input type="text" name="cathegory" value="${cathegory}"></input></td>
-				<td><input type="text" name="name" value="${name}"></input></td>
-				<td><input type="text" name="priceMin" value="${priceMin}"></input></td>
-				<td><input type="text" name="priceMax" value="${priceMax}"></input></td>
+				<td><input type="text" name="cathegory" value="${cathegory}"/></td>
+				<td><input type="text" name="name" value="${name}"/></td>
+				<td><input type="text" name="priceMin" value="${priceMin}"/></td>
+				<td><input type="text" name="priceMax" value="${priceMax}"/></td>
 				<td><input type="submit" value="Найти"></td>
 			</tr>
 		</table>
@@ -36,7 +36,7 @@
 		</tr>
 		<c:forEach var="product" items="${products}">
 			<tr>
-			    <td>${product.catId}</td>
+			    <td>${product.cat.name}</td>
 				<td>${product.name}</td>
 				<td>${product.price}</td>
 			</tr>
