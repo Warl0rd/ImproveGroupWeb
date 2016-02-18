@@ -19,10 +19,10 @@
 				<th></th>
 			</tr>
 			<tr>
-				<td><input type="text" name="cathegory" value="${cathegory}"/></td>
-				<td><input type="text" name="name" value="${name}"/></td>
-				<td><input type="text" name="priceMin" value="${priceMin}"/></td>
-				<td><input type="text" name="priceMax" value="${priceMax}"/></td>
+				<td><input type="text" name="productCathegory" value="${parameters.productCathegory}"/></td>
+				<td><input type="text" name="productName" value="${parameters.productName}"/></td>
+				<td><input type="text" name="productMinPrice" value="${parameters.productMinPrice}"/></td>
+				<td><input type="text" name="productMaxPrice" value="${parameters.productMaxPrice}"/></td>
 				<td><input type="submit" value="Найти"></td>
 			</tr>
 		</table>

@@ -3,21 +3,22 @@ package ru.sokolov.pricelist.services;
 import java.util.List;
 
 import ru.sokolov.pricelist.dao.ProductDao;
+import ru.sokolov.pricelist.dao.ReqParameters;
 import ru.sokolov.pricelist.models.Product;
 
 public class ProductService {
 	
-	private static ProductDao productDao;
+	private ProductDao productDao;
 	
-	public ProductService() {
-		productDao = new ProductDao();
+	public ProductService(ProductDao productDao) {
+		this.productDao = productDao;
 	}
 	
 	public List<Product> findAll() {
 		return productDao.findAll();
 	}
 	
-	public List<Product> findAppropriate(String sql) {
-		return (List<Product>) productDao.findAppropriate(sql);
+	public List<Product> findAppropriate(ReqParameters parameters) {
+		return (List<Product>) productDao.findAppropriate(parameters);
 	}
 }
