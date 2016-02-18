@@ -3,6 +3,7 @@ package ru.sokolov.pricelist.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
@@ -10,24 +11,37 @@ import ru.sokolov.pricelist.models.Product;
 
 public class ProductDao {
 	
-	private EntityManager em;
-
+	private EntityManagerFactory emf;
+	
 	public ProductDao(String persisntenceUnit) {
 		
-		em = Persistence.createEntityManagerFactory(persisntenceUnit).createEntityManager();
+		emf = Persistence.createEntityManagerFactory(persisntenceUnit);
 	}
 	
+	/**
+	 * @return List<{@link}Product> with all database entries
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Product> findAll() {
+		
+		EntityManager em = emf.createEntityManager();
 		
 		Query query = em.createQuery("SELECT p FROM Product p");
 		List<Product> products = (List<Product>) query.getResultList();
 		
+		em.close();
+		
 		return products;
 	}
 	
+	/**
+	 * @param parameters describe the appropriate entries in database
+	 * @return List<{@link}Product> with only appropriate database entries
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Product> findAppropriate(ReqParameters parameters) {
+		
+		EntityManager em = emf.createEntityManager();
 		
 		Query query = em.createQuery("SELECT p FROM Product p WHERE "
 				+ "p.cat.name LIKE :productCathegory AND "
@@ -41,6 +55,8 @@ public class ProductDao {
 		query.setParameter("productMaxPrice", "".equals(parameters.getProductMaxPrice()) ? Double.MAX_VALUE : Double.parseDouble(parameters.getProductMaxPrice()));
 		
 		List<Product> products = (List<Product>) query.getResultList();
+		
+		em.close();
 		
 		return products;
 	}

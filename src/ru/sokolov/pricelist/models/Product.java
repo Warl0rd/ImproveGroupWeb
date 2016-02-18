@@ -8,6 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ *	Class for Product Entity
+ * @author SokolovVS
+ */
 @Entity
 @Table(name="PROD")
 public class Product {

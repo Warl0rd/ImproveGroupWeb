@@ -1,3 +1,6 @@
 ru\sokolov\pricelist\controllers\MainController.class
 ru\sokolov\pricelist\models\Cathegory.class
+ru\sokolov\pricelist\services\ProductService.class
 ru\sokolov\pricelist\models\Product.class
+ru\sokolov\pricelist\dao\ProductDao.class
+ru\sokolov\pricelist\dao\ReqParameters.class

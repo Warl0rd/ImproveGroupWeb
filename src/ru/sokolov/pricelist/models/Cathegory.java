@@ -10,6 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+/**
+ *	Class for Cathegory Entity
+ * @author SokolovVS
+ */
 @Entity
 @Table(name="CAT")
 public class Cathegory {

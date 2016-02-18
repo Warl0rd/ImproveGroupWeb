@@ -34,6 +34,12 @@ public class MainController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		ReqParameters parameters = new ReqParameters(request.getParameterMap());
+		
+		if (parameters.isEmpty()) {
+			doGet(request, response);
+			return;
+		}
+		
 		request.setAttribute("parameters", parameters);
 		
 		List<Product> products = productService.findAppropriate(parameters);
