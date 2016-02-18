@@ -1,6 +1,7 @@
 package ru.sokolov.pricelist.models;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +26,7 @@ public class Product {
 	
 	private String name;
 	
+	@Column(precision=16, scale=2)
 	private double price;
 
 	public Product() {}
