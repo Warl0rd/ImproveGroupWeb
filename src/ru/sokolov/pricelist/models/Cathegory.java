@@ -1,7 +1,5 @@
 package ru.sokolov.pricelist.models;
 
-import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -14,10 +12,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="CAT")
-public class Cathegory implements Serializable {
+public class Cathegory {
 	
-	private static final long serialVersionUID = -604113040146028570L;
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
@@ -25,7 +21,7 @@ public class Cathegory implements Serializable {
 	private String name;
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="cat")
-	private Set<Product> products = new HashSet<>(0);
+	private Set<Product> products;
 
 	public Cathegory() {}
 
@@ -44,10 +40,4 @@ public class Cathegory implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	@Override
-	public String toString() {
-		return "Cathegory [" + name + "]";
-	}
-
 }

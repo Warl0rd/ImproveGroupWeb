@@ -4,10 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,30 +12,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ru.sokolov.pricelist.models.Product;
+import ru.sokolov.pricelist.services.ProductService;
 
 @WebServlet("/pricelist")
 public class MainController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	EntityManagerFactory emfactory;
-	EntityManager entitymanager;
+	ProductService productService;
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		
-		emfactory = Persistence.createEntityManagerFactory("ImproveGroup");
-		entitymanager = emfactory.createEntityManager();
+		productService = new ProductService();
 	}
 	
-	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String sql = "SELECT p FROM Product p";
-		
-		Query query = entitymanager.createQuery(sql);
-		
-		List<Product> products = (List<Product>) query.getResultList();
+		List<Product> products = productService.findAll();
 
 		request.setAttribute("products", products);
 		
@@ -47,7 +37,6 @@ public class MainController extends HttpServlet {
 		
 	}
 	
-	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		request.setCharacterEncoding("UTF-8");
@@ -153,25 +142,11 @@ public class MainController extends HttpServlet {
 			}
 		}
 		
-		Query query = entitymanager.createQuery(sql.toString());
-		
-		List<Product> products = (List<Product>) query.getResultList();
+		List<Product> products = productService.findAppropriate(sql.toString());
 		
 		request.setAttribute("products", products);
 		
 		request.getRequestDispatcher("index.jsp").forward(request, response);
 		
 	}
-	
-	@Override
-	public void destroy() {
-		
-		entitymanager.close();
-		emfactory.close();
-		
-		super.destroy();
-	}
-
-	
-
 }
