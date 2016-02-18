@@ -27,6 +27,9 @@ public class ProductDao {
 		EntityManager em = emf.createEntityManager();
 		
 		Query query = em.createQuery("SELECT p FROM Product p");
+		//Add limit for ResultList size
+		query.setFirstResult(0);
+		query.setMaxResults(50);
 		List<Product> products = (List<Product>) query.getResultList();
 		
 		em.close();
@@ -53,6 +56,9 @@ public class ProductDao {
 		query.setParameter("productName", parameters.getProductName()+"%");
 		query.setParameter("productMinPrice", "".equals(parameters.getProductMinPrice()) ? 0.0 : Double.parseDouble(parameters.getProductMinPrice()));
 		query.setParameter("productMaxPrice", "".equals(parameters.getProductMaxPrice()) ? Double.MAX_VALUE : Double.parseDouble(parameters.getProductMaxPrice()));
+		//Add limit for ResultList size
+		query.setFirstResult(0);
+		query.setMaxResults(50);
 		
 		List<Product> products = (List<Product>) query.getResultList();
 		
